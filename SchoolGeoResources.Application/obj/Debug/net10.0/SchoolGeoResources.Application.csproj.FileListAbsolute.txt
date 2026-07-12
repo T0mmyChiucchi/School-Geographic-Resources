@@ -1,0 +1,15 @@
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/bin/Debug/net10.0/SchoolGeoResources.Application.deps.json
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/bin/Debug/net10.0/SchoolGeoResources.Application.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/bin/Debug/net10.0/SchoolGeoResources.Application.pdb
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/bin/Debug/net10.0/SchoolGeoResources.Domain.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/bin/Debug/net10.0/SchoolGeoResources.Domain.pdb
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.csproj.AssemblyReference.cache
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.AssemblyInfoInputs.cache
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.AssemblyInfo.cs
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.csproj.CoreCompileInputs.cache
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGe.8E62B7C7.Up2Date
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/refint/SchoolGeoResources.Application.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/SchoolGeoResources.Application.pdb
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Application/obj/Debug/net10.0/ref/SchoolGeoResources.Application.dll

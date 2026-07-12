@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SchoolGeoResources.Api/SchoolGeoResources.Api.csproj" />
+  <Project Path="SchoolGeoResources.Application/SchoolGeoResources.Application.csproj" />
+  <Project Path="SchoolGeoResources.Domain/SchoolGeoResources.Domain.csproj" />
+  <Project Path="SchoolGeoResources.Infrastructure/SchoolGeoResources.Infrastructure.csproj" />
+</Solution>

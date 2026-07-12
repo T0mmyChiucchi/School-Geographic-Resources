@@ -1,0 +1,11 @@
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/bin/Debug/net10.0/SchoolGeoResources.Domain.deps.json
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/bin/Debug/net10.0/SchoolGeoResources.Domain.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/bin/Debug/net10.0/SchoolGeoResources.Domain.pdb
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.AssemblyInfoInputs.cache
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.AssemblyInfo.cs
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.csproj.CoreCompileInputs.cache
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/refint/SchoolGeoResources.Domain.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.pdb
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/ref/SchoolGeoResources.Domain.dll
