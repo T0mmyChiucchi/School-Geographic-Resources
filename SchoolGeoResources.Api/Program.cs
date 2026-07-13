@@ -59,6 +59,8 @@ builder.Services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<
 builder.Services.AddScoped(typeof(IRepository<>), typeof(SchoolGeoResources.Infrastructure.Persistence.Repositories.Repository<>));
 builder.Services.AddScoped<IOrganizationRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.OrganizationRepository>();
 builder.Services.AddScoped<IPlaceRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.PlaceRepository>();
+builder.Services.AddScoped<IResourceRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.ResourceRepository>();
+builder.Services.AddScoped<IResourceCollectionRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.ResourceCollectionRepository>();
 
 // Register ApplicationDbContext Interface
 builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<SchoolGeoResources.Infrastructure.Persistence.ApplicationDbContext>());

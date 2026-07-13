@@ -16,7 +16,7 @@ public class Repository<T> : IRepository<T> where T : AggregateRoot
         DbContext = dbContext;
     }
 
-    public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public virtual async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<T>().FindAsync(new object[] { id }, cancellationToken);
     }

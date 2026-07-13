@@ -19,9 +19,17 @@ public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, List<PlaceD
 
     public async Task<List<PlaceDto>> Handle(GetPlacesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Places
+        var query = _context.Places
             .Where(p => p.Location.Latitude >= request.MinLat && p.Location.Latitude <= request.MaxLat &&
-                        p.Location.Longitude >= request.MinLng && p.Location.Longitude <= request.MaxLng)
+                        p.Location.Longitude >= request.MinLng && p.Location.Longitude <= request.MaxLng);
+
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            var searchTerm = request.SearchTerm.ToLower();
+            query = query.Where(p => p.Name.ToLower().Contains(searchTerm));
+        }
+
+        return await query
             .Select(p => new PlaceDto
             {
                 Id = p.Id,

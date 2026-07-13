@@ -29,4 +29,10 @@ public class Place : AggregateRoot
     {
         Address = address;
     }
+
+    public void Update(string name, GeoCoordinate location)
+    {
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        Location = location ?? throw new ArgumentNullException(nameof(location));
+    }
 }

@@ -37,6 +37,28 @@ public class ResourceCollection : AggregateRoot
         Tags = tags;
     }
 
+    public void UpdateTitle(string title)
+    {
+        Title = title ?? throw new ArgumentNullException(nameof(title));
+    }
+
+    public void SetVisibility(Visibility visibility)
+    {
+        Visibility = visibility;
+    }
+
+    public void RemoveResource(Guid resourceId)
+    {
+        if (IsArchived)
+            throw new InvalidOperationException("Cannot modify an archived collection.");
+
+        var item = _items.SingleOrDefault(i => i.ResourceId == resourceId);
+        if (item != null)
+        {
+            _items.Remove(item);
+        }
+    }
+
     public void Archive()
     {
         IsArchived = true;

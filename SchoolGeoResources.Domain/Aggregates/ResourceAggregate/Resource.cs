@@ -33,6 +33,20 @@ public class Resource : AggregateRoot
         return new Resource(id, title, type, organizationId, placeId);
     }
 
+    public void UpdateBasicInfo(string title, ResourceType type)
+    {
+        if (State == PublicationState.Published)
+            throw new InvalidOperationException("Cannot modify a published resource directly.");
+
+        Title = title ?? throw new ArgumentNullException(nameof(title));
+        Type = type;
+    }
+
+    public void SetTags(TagSet tags)
+    {
+        Tags = tags ?? throw new ArgumentNullException(nameof(tags));
+    }
+
     public void SetMediaUrl(string url)
     {
         if (State == PublicationState.Published)
