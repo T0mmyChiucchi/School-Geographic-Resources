@@ -9,7 +9,7 @@ using SchoolGeoResources.Domain.Aggregates.ResourceAggregate;
 using SchoolGeoResources.Domain.Aggregates.ResourceCollectionAggregate;
 using System.Reflection;
 
-public class ApplicationDbContext : DbContext, IUnitOfWork
+public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
 {
     public DbSet<Organization> Organizations { get; set; }
     public DbSet<OrganizationUser> OrganizationUsers { get; set; }

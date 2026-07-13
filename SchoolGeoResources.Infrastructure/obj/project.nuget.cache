@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "YzoOWA60l7s=",
+  "dgSpecHash": "FUU7frRI2Y8=",
   "success": true,
   "projectFilePath": "/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Infrastructure/SchoolGeoResources.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "/Users/quake/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
+    "/Users/quake/.nuget/packages/fluentvalidation.dependencyinjectionextensions/12.1.1/fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
     "/Users/quake/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/quake/.nuget/packages/mediatr/14.2.0/mediatr.14.2.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",

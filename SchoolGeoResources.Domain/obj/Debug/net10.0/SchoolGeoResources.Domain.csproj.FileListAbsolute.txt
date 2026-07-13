@@ -9,3 +9,4 @@
 /Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/refint/SchoolGeoResources.Domain.dll
 /Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.pdb
 /Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/ref/SchoolGeoResources.Domain.dll
+/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Domain/obj/Debug/net10.0/SchoolGeoResources.Domain.sourcelink.json
