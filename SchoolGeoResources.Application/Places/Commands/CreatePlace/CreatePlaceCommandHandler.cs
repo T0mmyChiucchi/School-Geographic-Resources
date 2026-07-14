@@ -12,29 +12,18 @@ public class CreatePlaceCommandHandler : IRequestHandler<CreatePlaceCommand, Gui
 {
     private readonly IPlaceRepository _placeRepository;
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly IUserContextService _userContextService;
 
-    public CreatePlaceCommandHandler(IPlaceRepository placeRepository, IApplicationDbContext context, ICurrentUserService currentUserService)
+    public CreatePlaceCommandHandler(IPlaceRepository placeRepository, IApplicationDbContext context, IUserContextService userContextService)
     {
         _placeRepository = placeRepository;
         _context = context;
-        _currentUserService = currentUserService;
+        _userContextService = userContextService;
     }
 
     public async Task<Guid> Handle(CreatePlaceCommand request, CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(_currentUserService.UserId, out var userId))
-        {
-            throw new UnauthorizedAccessException("Invalid user id.");
-        }
-
-        var orgUser = await _context.OrganizationUsers.FindAsync(new object[] { userId }, cancellationToken);
-        if (orgUser == null)
-        {
-            // For now, allow creation without a valid organization for testing if not found, or throw.
-            // Let's assume they MUST have an organization.
-            throw new UnauthorizedAccessException("User does not belong to any organization.");
-        }
+        var orgUser = await _userContextService.GetCurrentUserAsync(cancellationToken);
 
         var place = Place.Create(
             Guid.NewGuid(), 

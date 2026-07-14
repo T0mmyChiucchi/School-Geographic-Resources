@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8Wh3m+7w8d8=",
+  "dgSpecHash": "Dal+MOxyJnA=",
   "success": true,
   "projectFilePath": "/Users/quake/Desktop/Antigravity - App/School Geographic Resources/SchoolGeoResources.Api/SchoolGeoResources.Api.csproj",
   "expectedPackageFiles": [
@@ -26,14 +26,17 @@
     "/Users/quake/.nuget/packages/microsoft.entityframeworkcore.relational/10.0.9/microsoft.entityframeworkcore.relational.10.0.9.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.extensions.apidescription.server/10.0.0/microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.extensions.dependencymodel/10.0.9/microsoft.extensions.dependencymodel.10.0.9.nupkg.sha512",
+    "/Users/quake/.nuget/packages/microsoft.extensions.diagnostics.healthchecks.entityframeworkcore/10.0.9/microsoft.extensions.diagnostics.healthchecks.entityframeworkcore.10.0.9.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.identitymodel.abstractions/8.14.0/microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.identitymodel.jsonwebtokens/8.14.0/microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.identitymodel.logging/8.14.0/microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.identitymodel.protocols/8.0.1/microsoft.identitymodel.protocols.8.0.1.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.identitymodel.protocols.openidconnect/8.0.1/microsoft.identitymodel.protocols.openidconnect.8.0.1.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.identitymodel.tokens/8.14.0/microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
+    "/Users/quake/.nuget/packages/microsoft.io.recyclablememorystream/3.0.0/microsoft.io.recyclablememorystream.3.0.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.openapi/2.7.5/microsoft.openapi.2.7.5.nupkg.sha512",
     "/Users/quake/.nuget/packages/microsoft.visualstudio.solutionpersistence/1.0.52/microsoft.visualstudio.solutionpersistence.1.0.52.nupkg.sha512",
+    "/Users/quake/.nuget/packages/mimemapping/3.0.1/mimemapping.3.0.1.nupkg.sha512",
     "/Users/quake/.nuget/packages/mono.texttemplating/3.0.0/mono.texttemplating.3.0.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/nettopologysuite/2.6.0/nettopologysuite.2.6.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/nettopologysuite.io.postgis/2.1.0/nettopologysuite.io.postgis.2.1.0.nupkg.sha512",
@@ -42,6 +45,13 @@
     "/Users/quake/.nuget/packages/npgsql.entityframeworkcore.postgresql/10.0.3/npgsql.entityframeworkcore.postgresql.10.0.3.nupkg.sha512",
     "/Users/quake/.nuget/packages/npgsql.entityframeworkcore.postgresql.nettopologysuite/10.0.3/npgsql.entityframeworkcore.postgresql.nettopologysuite.10.0.3.nupkg.sha512",
     "/Users/quake/.nuget/packages/npgsql.nettopologysuite/10.0.3/npgsql.nettopologysuite.10.0.3.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase/1.1.1/supabase.1.1.1.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase.core/1.0.0/supabase.core.1.0.0.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase.functions/2.0.0/supabase.functions.2.0.0.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase.gotrue/6.0.3/supabase.gotrue.6.0.3.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase.postgrest/4.0.3/supabase.postgrest.4.0.3.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase.realtime/7.0.2/supabase.realtime.7.0.2.nupkg.sha512",
+    "/Users/quake/.nuget/packages/supabase.storage/2.0.2/supabase.storage.2.0.2.nupkg.sha512",
     "/Users/quake/.nuget/packages/swashbuckle.aspnetcore/10.2.3/swashbuckle.aspnetcore.10.2.3.nupkg.sha512",
     "/Users/quake/.nuget/packages/swashbuckle.aspnetcore.swagger/10.2.3/swashbuckle.aspnetcore.swagger.10.2.3.nupkg.sha512",
     "/Users/quake/.nuget/packages/swashbuckle.aspnetcore.swaggergen/10.2.3/swashbuckle.aspnetcore.swaggergen.10.2.3.nupkg.sha512",
@@ -53,7 +63,9 @@
     "/Users/quake/.nuget/packages/system.composition.hosting/9.0.0/system.composition.hosting.9.0.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/system.composition.runtime/9.0.0/system.composition.runtime.9.0.0.nupkg.sha512",
     "/Users/quake/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
-    "/Users/quake/.nuget/packages/system.identitymodel.tokens.jwt/8.0.1/system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512"
+    "/Users/quake/.nuget/packages/system.identitymodel.tokens.jwt/8.0.1/system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
+    "/Users/quake/.nuget/packages/system.reactive/6.0.0/system.reactive.6.0.0.nupkg.sha512",
+    "/Users/quake/.nuget/packages/websocket.client/5.1.1/websocket.client.5.1.1.nupkg.sha512"
   ],
   "logs": []
 }

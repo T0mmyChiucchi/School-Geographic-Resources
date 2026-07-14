@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SchoolGeoResources.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a17c73776e896c66f053e720d53c65a98071ffb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+710aba4fe4f66724468fc2610ebec2c2709b4412")]
 [assembly: System.Reflection.AssemblyProductAttribute("SchoolGeoResources.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SchoolGeoResources.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

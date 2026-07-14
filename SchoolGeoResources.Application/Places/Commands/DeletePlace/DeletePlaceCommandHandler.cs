@@ -12,13 +12,16 @@ public class DeletePlaceCommandHandler : IRequestHandler<DeletePlaceCommand, Uni
 {
     private readonly IApplicationDbContext _context;
     private readonly IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> _repository;
+    private readonly IUserContextService _userContextService;
 
     public DeletePlaceCommandHandler(
         IApplicationDbContext context,
-        IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> repository)
+        IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> repository,
+        IUserContextService userContextService)
     {
         _context = context;
         _repository = repository;
+        _userContextService = userContextService;
     }
 
     public async Task<Unit> Handle(DeletePlaceCommand request, CancellationToken cancellationToken)
@@ -26,6 +29,8 @@ public class DeletePlaceCommandHandler : IRequestHandler<DeletePlaceCommand, Uni
         var place = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (place == null)
             throw new Exception("Place not found");
+
+        await _userContextService.EnsureUserCanModifyOrganizationAsync(place.OrganizationId, cancellationToken);
 
         // Cautious approach: Block deletion if there are any resources linked to this place
         bool hasResources = await _context.Resources.AnyAsync(r => r.PlaceId == place.Id, cancellationToken);

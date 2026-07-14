@@ -3,12 +3,13 @@ namespace SchoolGeoResources.Application.ResourceCollections.Queries.GetPlaceCol
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SchoolGeoResources.Application.Common.Interfaces;
-using System.Collections.Generic;
+using SchoolGeoResources.Application.Common.Mappings;
+using SchoolGeoResources.Application.Common.Models;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GetPlaceCollectionsQueryHandler : IRequestHandler<GetPlaceCollectionsQuery, List<ResourceCollectionDto>>
+public class GetPlaceCollectionsQueryHandler : IRequestHandler<GetPlaceCollectionsQuery, PaginatedList<ResourceCollectionDto>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -17,9 +18,9 @@ public class GetPlaceCollectionsQueryHandler : IRequestHandler<GetPlaceCollectio
         _context = context;
     }
 
-    public async Task<List<ResourceCollectionDto>> Handle(GetPlaceCollectionsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ResourceCollectionDto>> Handle(GetPlaceCollectionsQuery request, CancellationToken cancellationToken)
     {
-        var collections = await _context.ResourceCollections
+        var projection = _context.ResourceCollections
             .Include(c => c.Items)
             .Where(c => c.PlaceId == request.PlaceId && !c.IsArchived)
             .Select(c => new ResourceCollectionDto
@@ -34,9 +35,8 @@ public class GetPlaceCollectionsQueryHandler : IRequestHandler<GetPlaceCollectio
                     ResourceId = i.ResourceId,
                     Order = i.Order
                 }).ToList()
-            })
-            .ToListAsync(cancellationToken);
+            });
 
-        return collections;
+        return await projection.PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }

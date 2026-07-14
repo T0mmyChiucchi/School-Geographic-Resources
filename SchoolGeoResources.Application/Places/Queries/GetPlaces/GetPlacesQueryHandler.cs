@@ -3,12 +3,13 @@ namespace SchoolGeoResources.Application.Places.Queries.GetPlaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SchoolGeoResources.Application.Common.Interfaces;
-using System.Collections.Generic;
+using SchoolGeoResources.Application.Common.Mappings;
+using SchoolGeoResources.Application.Common.Models;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, List<PlaceDto>>
+public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, PaginatedList<PlaceDto>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -17,11 +18,18 @@ public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, List<PlaceD
         _context = context;
     }
 
-    public async Task<List<PlaceDto>> Handle(GetPlacesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<PlaceDto>> Handle(GetPlacesQuery request, CancellationToken cancellationToken)
     {
-        var query = _context.Places
-            .Where(p => p.Location.Latitude >= request.MinLat && p.Location.Latitude <= request.MaxLat &&
-                        p.Location.Longitude >= request.MinLng && p.Location.Longitude <= request.MaxLng);
+        var query = _context.Places.AsQueryable();
+
+        if (request.MinLat != 0 || request.MaxLat != 0 || request.MinLng != 0 || request.MaxLng != 0)
+        {
+            query = query.Where(p => 
+                p.Location.Latitude >= request.MinLat &&
+                p.Location.Latitude <= request.MaxLat &&
+                p.Location.Longitude >= request.MinLng &&
+                p.Location.Longitude <= request.MaxLng);
+        }
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
@@ -29,15 +37,17 @@ public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, List<PlaceD
             query = query.Where(p => p.Name.ToLower().Contains(searchTerm));
         }
 
-        return await query
-            .Select(p => new PlaceDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Latitude = p.Location.Latitude,
-                Longitude = p.Location.Longitude,
-                FullAddress = $"{p.Address.Street}, {p.Address.PostalCode} {p.Address.City}, {p.Address.CountryCode}"
-            })
-            .ToListAsync(cancellationToken);
+        var projection = query.Select(p => new PlaceDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Latitude = p.Location.Latitude,
+            Longitude = p.Location.Longitude,
+            FullAddress = p.Address.City,
+            Description = p.Address.Street,
+            OrganizationId = p.OrganizationId
+        });
+
+        return await projection.PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }

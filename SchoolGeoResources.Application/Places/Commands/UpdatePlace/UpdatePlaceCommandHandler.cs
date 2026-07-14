@@ -10,10 +10,14 @@ using System.Threading.Tasks;
 public class UpdatePlaceCommandHandler : IRequestHandler<UpdatePlaceCommand, Unit>
 {
     private readonly IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> _repository;
+    private readonly IUserContextService _userContextService;
 
-    public UpdatePlaceCommandHandler(IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> repository)
+    public UpdatePlaceCommandHandler(
+        IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> repository,
+        IUserContextService userContextService)
     {
         _repository = repository;
+        _userContextService = userContextService;
     }
 
     public async Task<Unit> Handle(UpdatePlaceCommand request, CancellationToken cancellationToken)
@@ -21,6 +25,8 @@ public class UpdatePlaceCommandHandler : IRequestHandler<UpdatePlaceCommand, Uni
         var place = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (place == null)
             throw new Exception("Place not found");
+
+        await _userContextService.EnsureUserCanModifyOrganizationAsync(place.OrganizationId, cancellationToken);
 
         var location = GeoCoordinate.Create(request.Latitude, request.Longitude);
         var address = Address.Create(request.Street, request.City, request.PostalCode, request.CountryCode);

@@ -41,27 +41,31 @@ public class ResourcesController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<List<ResourceDto>>> GetPlaceResources([FromQuery] Guid placeId)
+    public async Task<ActionResult<SchoolGeoResources.Application.Common.Models.PaginatedList<ResourceDto>>> GetPlaceResources([FromQuery] Guid placeId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
     {
-        var query = new GetPlaceResourcesQuery { PlaceId = placeId };
+        var query = new GetPlaceResourcesQuery { PlaceId = placeId, PageNumber = pageNumber, PageSize = pageSize };
         var resources = await _mediator.Send(query);
         return Ok(resources);
     }
 
     [HttpGet("search")]
     [AllowAnonymous]
-    public async Task<ActionResult<List<ResourceSearchResultDto>>> SearchResources(
+    public async Task<ActionResult<SchoolGeoResources.Application.Common.Models.PaginatedList<ResourceSearchResultDto>>> SearchResources(
         [FromQuery] string? searchTerm = null,
         [FromQuery] string? tag = null,
         [FromQuery] ResourceType? type = null,
-        [FromQuery] Guid? placeId = null)
+        [FromQuery] Guid? placeId = null,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20)
     {
         var query = new SearchResourcesQuery
         {
             SearchTerm = searchTerm,
             Tag = tag,
             Type = type,
-            PlaceId = placeId
+            PlaceId = placeId,
+            PageNumber = pageNumber,
+            PageSize = pageSize
         };
 
         var results = await _mediator.Send(query);

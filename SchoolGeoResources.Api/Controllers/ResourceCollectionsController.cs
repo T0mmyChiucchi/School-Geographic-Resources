@@ -70,9 +70,9 @@ public class ResourceCollectionsController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<List<ResourceCollectionDto>>> GetPlaceCollections([FromQuery] Guid placeId)
+    public async Task<ActionResult<SchoolGeoResources.Application.Common.Models.PaginatedList<ResourceCollectionDto>>> GetPlaceCollections([FromQuery] Guid placeId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
     {
-        var query = new GetPlaceCollectionsQuery { PlaceId = placeId };
+        var query = new GetPlaceCollectionsQuery { PlaceId = placeId, PageNumber = pageNumber, PageSize = pageSize };
         var collections = await _mediator.Send(query);
         return Ok(collections);
     }

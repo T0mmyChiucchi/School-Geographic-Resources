@@ -11,13 +11,16 @@ public class CreateResourceCollectionCommandHandler : IRequestHandler<CreateReso
 {
     private readonly IResourceCollectionRepository _repository;
     private readonly IPlaceRepository _placeRepository;
+    private readonly IUserContextService _userContextService;
 
     public CreateResourceCollectionCommandHandler(
         IResourceCollectionRepository repository,
-        IPlaceRepository placeRepository)
+        IPlaceRepository placeRepository,
+        IUserContextService userContextService)
     {
         _repository = repository;
         _placeRepository = placeRepository;
+        _userContextService = userContextService;
     }
 
     public async Task<Guid> Handle(CreateResourceCollectionCommand request, CancellationToken cancellationToken)
@@ -27,6 +30,8 @@ public class CreateResourceCollectionCommandHandler : IRequestHandler<CreateReso
         {
             throw new ArgumentException($"Place with ID {request.PlaceId} does not exist.", nameof(request.PlaceId));
         }
+
+        await _userContextService.EnsureUserCanModifyOrganizationAsync(place.OrganizationId, cancellationToken);
 
         var collection = ResourceCollection.Create(Guid.NewGuid(), request.Title, request.PlaceId, request.Visibility);
 

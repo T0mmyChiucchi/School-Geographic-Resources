@@ -3,14 +3,15 @@ namespace SchoolGeoResources.Application.Resources.Queries.GetPlaceResources;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SchoolGeoResources.Application.Common.Interfaces;
+using SchoolGeoResources.Application.Common.Mappings;
+using SchoolGeoResources.Application.Common.Models;
 using SchoolGeoResources.Domain.Aggregates.ResourceAggregate;
 using SchoolGeoResources.Domain.ValueObjects;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GetPlaceResourcesQueryHandler : IRequestHandler<GetPlaceResourcesQuery, List<ResourceDto>>
+public class GetPlaceResourcesQueryHandler : IRequestHandler<GetPlaceResourcesQuery, PaginatedList<ResourceDto>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -19,9 +20,9 @@ public class GetPlaceResourcesQueryHandler : IRequestHandler<GetPlaceResourcesQu
         _context = context;
     }
 
-    public async Task<List<ResourceDto>> Handle(GetPlaceResourcesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ResourceDto>> Handle(GetPlaceResourcesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Resources
+        var projection = _context.Resources
             .Where(r => r.PlaceId == request.PlaceId && r.State == PublicationState.Published)
             .Select(r => new ResourceDto
             {
@@ -31,7 +32,8 @@ public class GetPlaceResourcesQueryHandler : IRequestHandler<GetPlaceResourcesQu
                 State = r.State,
                 MediaUrl = r.MediaUrl,
                 PlaceId = r.PlaceId
-            })
-            .ToListAsync(cancellationToken);
+            });
+
+        return await projection.PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }

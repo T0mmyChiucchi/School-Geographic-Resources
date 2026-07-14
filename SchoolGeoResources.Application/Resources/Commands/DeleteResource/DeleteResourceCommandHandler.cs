@@ -14,11 +14,16 @@ public class DeleteResourceCommandHandler : IRequestHandler<DeleteResourceComman
 {
     private readonly IRepository<Resource> _repository;
     private readonly IApplicationDbContext _context;
+    private readonly IUserContextService _userContextService;
 
-    public DeleteResourceCommandHandler(IRepository<Resource> repository, IApplicationDbContext context)
+    public DeleteResourceCommandHandler(
+        IRepository<Resource> repository, 
+        IApplicationDbContext context,
+        IUserContextService userContextService)
     {
         _repository = repository;
         _context = context;
+        _userContextService = userContextService;
     }
 
     public async Task<Unit> Handle(DeleteResourceCommand request, CancellationToken cancellationToken)
@@ -26,6 +31,8 @@ public class DeleteResourceCommandHandler : IRequestHandler<DeleteResourceComman
         var resource = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (resource == null)
             throw new Exception("Resource not found");
+
+        await _userContextService.EnsureUserCanModifyOrganizationAsync(resource.OrganizationId, cancellationToken);
 
         if (resource.State == PublicationState.Published)
         {

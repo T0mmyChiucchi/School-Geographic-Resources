@@ -32,7 +32,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<IUserContextService, SchoolGeoResources.Infrastructure.Services.UserContextService>();
 builder.Services.AddControllers();
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LocalCorsPolicy", policy =>
+    {
+        policy.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// Configure HealthChecks
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<ApplicationDbContext>();
 
 // Configure OpenAPI/Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -61,6 +78,7 @@ builder.Services.AddScoped<IOrganizationRepository, SchoolGeoResources.Infrastru
 builder.Services.AddScoped<IPlaceRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.PlaceRepository>();
 builder.Services.AddScoped<IResourceRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.ResourceRepository>();
 builder.Services.AddScoped<IResourceCollectionRepository, SchoolGeoResources.Infrastructure.Persistence.Repositories.ResourceCollectionRepository>();
+builder.Services.AddScoped<IStorageService, SchoolGeoResources.Infrastructure.Services.SupabaseStorageService>();
 
 // Register ApplicationDbContext Interface
 builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<SchoolGeoResources.Infrastructure.Persistence.ApplicationDbContext>());
@@ -71,6 +89,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Creat
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<SchoolGeoResources.Api.Middleware.ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -79,9 +99,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("LocalCorsPolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHealthChecks("/health");
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await SchoolGeoResources.Infrastructure.Persistence.DataSeeder.SeedAsync(context);
+}
 
 app.Run();

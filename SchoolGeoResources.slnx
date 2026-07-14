@@ -3,4 +3,8 @@
   <Project Path="SchoolGeoResources.Application/SchoolGeoResources.Application.csproj" />
   <Project Path="SchoolGeoResources.Domain/SchoolGeoResources.Domain.csproj" />
   <Project Path="SchoolGeoResources.Infrastructure/SchoolGeoResources.Infrastructure.csproj" />
+  <Folder Name="/Tests/">
+    <Project Path="SchoolGeoResources.Domain.UnitTests/SchoolGeoResources.Domain.UnitTests.csproj" />
+    <Project Path="SchoolGeoResources.Application.UnitTests/SchoolGeoResources.Application.UnitTests.csproj" />
+  </Folder>
 </Solution>

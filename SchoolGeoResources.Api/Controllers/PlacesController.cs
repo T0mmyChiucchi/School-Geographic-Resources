@@ -30,10 +30,12 @@ public class PlacesController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous] // Allow anyone to view places on the map
-    public async Task<ActionResult<List<PlaceDto>>> GetPlaces(
+    public async Task<ActionResult<SchoolGeoResources.Application.Common.Models.PaginatedList<PlaceDto>>> GetPlaces(
         [FromQuery] double minLat, [FromQuery] double maxLat, 
         [FromQuery] double minLng, [FromQuery] double maxLng,
-        [FromQuery] string? searchTerm = null)
+        [FromQuery] string? searchTerm = null,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20)
     {
         var query = new GetPlacesQuery 
         { 
@@ -41,7 +43,9 @@ public class PlacesController : ControllerBase
             MaxLat = maxLat, 
             MinLng = minLng, 
             MaxLng = maxLng,
-            SearchTerm = searchTerm
+            SearchTerm = searchTerm,
+            PageNumber = pageNumber,
+            PageSize = pageSize
         };
 
         var places = await _mediator.Send(query);

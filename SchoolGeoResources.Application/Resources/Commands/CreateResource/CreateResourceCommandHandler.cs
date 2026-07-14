@@ -13,27 +13,18 @@ public class CreateResourceCommandHandler : IRequestHandler<CreateResourceComman
 {
     private readonly IResourceRepository _resourceRepository;
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly IUserContextService _userContextService;
 
-    public CreateResourceCommandHandler(IResourceRepository resourceRepository, IApplicationDbContext context, ICurrentUserService currentUserService)
+    public CreateResourceCommandHandler(IResourceRepository resourceRepository, IApplicationDbContext context, IUserContextService userContextService)
     {
         _resourceRepository = resourceRepository;
         _context = context;
-        _currentUserService = currentUserService;
+        _userContextService = userContextService;
     }
 
     public async Task<Guid> Handle(CreateResourceCommand request, CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(_currentUserService.UserId, out var userId))
-        {
-            throw new UnauthorizedAccessException("Invalid user id.");
-        }
-
-        var orgUser = await _context.OrganizationUsers.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
-        if (orgUser == null)
-        {
-            throw new UnauthorizedAccessException("User does not belong to any organization.");
-        }
+        var orgUser = await _userContextService.GetCurrentUserAsync(cancellationToken);
 
         var placeExists = await _context.Places.AnyAsync(p => p.Id == request.PlaceId, cancellationToken);
         if (!placeExists)

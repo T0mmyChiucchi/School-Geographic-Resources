@@ -11,10 +11,17 @@ using System.Threading.Tasks;
 public class UpdateResourceCollectionCommandHandler : IRequestHandler<UpdateResourceCollectionCommand, Unit>
 {
     private readonly IRepository<ResourceCollection> _repository;
+    private readonly IApplicationDbContext _context;
+    private readonly IUserContextService _userContextService;
 
-    public UpdateResourceCollectionCommandHandler(IRepository<ResourceCollection> repository)
+    public UpdateResourceCollectionCommandHandler(
+        IRepository<ResourceCollection> repository,
+        IApplicationDbContext context,
+        IUserContextService userContextService)
     {
         _repository = repository;
+        _context = context;
+        _userContextService = userContextService;
     }
 
     public async Task<Unit> Handle(UpdateResourceCollectionCommand request, CancellationToken cancellationToken)
@@ -22,6 +29,12 @@ public class UpdateResourceCollectionCommandHandler : IRequestHandler<UpdateReso
         var collection = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (collection == null)
             throw new Exception("ResourceCollection not found");
+
+        var place = await _context.Places.FindAsync(new object[] { collection.PlaceId }, cancellationToken);
+        if (place != null)
+        {
+            await _userContextService.EnsureUserCanModifyOrganizationAsync(place.OrganizationId, cancellationToken);
+        }
 
         collection.UpdateTitle(request.Title);
         collection.SetVisibility(request.Visibility);
