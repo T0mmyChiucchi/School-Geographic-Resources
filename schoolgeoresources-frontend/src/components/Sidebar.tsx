@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Map as MapIcon, FolderOpen, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, Map as MapIcon, FolderOpen, Settings, LogOut, Sun, Moon } from 'lucide-react';
 import clsx from 'clsx';
 
 import { supabase } from '../lib/supabase';
+import { useTheme } from '../contexts/ThemeContext';
 
 export function Sidebar() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -32,7 +34,15 @@ export function Sidebar() {
         <SidebarLink to="/settings" icon={<Settings size={20} />} label="Settings" />
       </nav>
 
-      <div style={{ padding: '1.5rem', borderTop: '1px solid var(--glass-border)' }}>
+      <div style={{ padding: '1.5rem', borderTop: '1px solid var(--glass-border)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <button 
+          className="btn btn-glass" 
+          style={{ width: '100%', justifyContent: 'flex-start', border: 'none', background: 'transparent' }}
+          onClick={toggleTheme}
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        </button>
         <button 
           className="btn btn-glass" 
           style={{ width: '100%', justifyContent: 'flex-start', border: 'none', background: 'transparent' }}

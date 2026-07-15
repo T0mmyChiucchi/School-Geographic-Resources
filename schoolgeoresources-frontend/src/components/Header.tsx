@@ -1,6 +1,5 @@
 import React from 'react';
 import { Search } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   title: string;
@@ -20,8 +19,6 @@ export function Header({ title, subtitle }: HeaderProps) {
           <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
           <input type="text" placeholder="Search resources..." className="input-field" style={{ paddingLeft: '2.5rem' }} />
         </div>
-        
-        <ThemeToggle />
       </div>
     </header>
   );

@@ -8,6 +8,10 @@ export interface Place {
   longitude: number;
   fullAddress: string;
   description: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  countryCode: string;
 }
 
 export interface PaginatedList<T> {
@@ -53,6 +57,51 @@ export function useCreatePlace() {
     },
     onSuccess: () => {
       // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['places'] });
+    },
+  });
+}
+
+export function useUpdatePlace() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (place: {
+      id: string;
+      name: string;
+      latitude: number;
+      longitude: number;
+      street: string;
+      city: string;
+      postalCode: string;
+      countryCode: string;
+    }) => {
+      const response = await fetchWithAuth(`/api/Places/${place.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(place),
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['places'] });
+    },
+  });
+}
+
+export function useDeletePlace() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetchWithAuth(`/api/Places/${id}`, {
+        method: 'DELETE',
+      });
+      return response;
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['places'] });
     },
   });

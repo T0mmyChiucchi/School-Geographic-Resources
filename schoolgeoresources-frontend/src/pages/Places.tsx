@@ -1,13 +1,47 @@
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
-import { usePlaces } from '../hooks/usePlaces';
+import { usePlaces, useDeletePlace, type Place } from '../hooks/usePlaces';
 import { GlassCard } from '../components/GlassCard';
-import { MapPin, Loader2, AlertCircle } from 'lucide-react';
+import { MapPin, Loader2, AlertCircle, Edit3, Trash2 } from 'lucide-react';
 import { PlaceForm } from '../components/PlaceForm';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 export function Places() {
   const { data, isLoading, error } = usePlaces();
+  const deletePlaceMutation = useDeletePlace();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [placeToEdit, setPlaceToEdit] = useState<Place | undefined>(undefined);
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [placeToDelete, setPlaceToDelete] = useState<Place | undefined>(undefined);
+
+  const handleAddNew = () => {
+    setPlaceToEdit(undefined);
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (place: Place) => {
+    setPlaceToEdit(place);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (place: Place) => {
+    setPlaceToDelete(place);
+    setIsConfirmOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (placeToDelete) {
+      try {
+        await deletePlaceMutation.mutateAsync(placeToDelete.id);
+        setIsConfirmOpen(false);
+        setPlaceToDelete(undefined);
+      } catch (err) {
+        console.error('Failed to delete place', err);
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -40,7 +74,7 @@ export function Places() {
       <div style={{ padding: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
           <h1 style={{ margin: 0, fontSize: '2rem', fontWeight: 700 }}>Geographic Places</h1>
-          <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>Add Place</button>
+          <button className="btn btn-primary" onClick={handleAddNew}>Add Place</button>
         </div>
 
       {places.length === 0 ? (
@@ -74,15 +108,27 @@ export function Places() {
               )}
               
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: 'auto' }}>
-                <button className="btn btn-glass" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>Edit</button>
-                <button className="btn btn-glass" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', color: 'var(--danger)' }}>Delete</button>
+                <button onClick={() => handleEditClick(place)} className="btn btn-glass" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
+                  <Edit3 size={18} />
+                </button>
+                <button onClick={() => handleDeleteClick(place)} className="btn btn-glass" style={{ padding: '0.5rem', fontSize: '0.85rem', color: 'var(--danger)' }}>
+                  <Trash2 size={18} />
+                </button>
               </div>
             </GlassCard>
           ))}
         </div>
       )}
       </div>
-      {isModalOpen && <PlaceForm onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <PlaceForm onClose={() => setIsModalOpen(false)} place={placeToEdit} />}
+      <ConfirmModal 
+        isOpen={isConfirmOpen}
+        title="Delete Place"
+        message={`Are you sure you want to delete "${placeToDelete?.name}"? This action cannot be undone.`}
+        onConfirm={confirmDelete}
+        onClose={() => setIsConfirmOpen(false)}
+        isLoading={deletePlaceMutation.isPending}
+      />
     </>
   );
 }

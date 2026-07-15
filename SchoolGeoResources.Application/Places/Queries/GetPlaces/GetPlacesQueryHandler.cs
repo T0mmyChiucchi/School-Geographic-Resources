@@ -45,6 +45,10 @@ public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, PaginatedLi
             Longitude = p.Location.Longitude,
             FullAddress = p.Address.City,
             Description = p.Address.Street,
+            Street = p.Address.Street,
+            City = p.Address.City,
+            PostalCode = p.Address.PostalCode,
+            CountryCode = p.Address.CountryCode,
             OrganizationId = p.OrganizationId
         });
 

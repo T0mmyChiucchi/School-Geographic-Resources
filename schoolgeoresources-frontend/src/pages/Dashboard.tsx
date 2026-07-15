@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { GlassCard } from '../components/GlassCard';
-import { Map as MapIcon, FolderOpen, Files, Activity } from 'lucide-react';
-import { usePlaces } from '../hooks/usePlaces';
+import { Map as MapIcon, FolderOpen } from 'lucide-react';
+import { usePlaces, useDeletePlace, type Place } from '../hooks/usePlaces';
+import { PlaceForm } from '../components/PlaceForm';
+import { PlacePopup } from '../components/PlacePopup';
+import { ConfirmModal } from '../components/ConfirmModal';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 
 const customIcon = L.divIcon({
@@ -14,9 +17,54 @@ const customIcon = L.divIcon({
   iconAnchor: [10, 10],
 });
 
+function MapClickHandler({ onMapClick }: { onMapClick: (latlng: any) => void }) {
+  useMapEvents({
+    click(e) {
+      onMapClick(e.latlng);
+    },
+  });
+  return null;
+}
+
 export function Dashboard() {
   const { data, isLoading } = usePlaces();
+  const deletePlaceMutation = useDeletePlace();
   const totalPlaces = data?.totalCount || 0;
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickedCoords, setClickedCoords] = useState<{lat: number, lng: number} | undefined>(undefined);
+  const [placeToEdit, setPlaceToEdit] = useState<Place | undefined>(undefined);
+
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [placeToDelete, setPlaceToDelete] = useState<Place | undefined>(undefined);
+
+  const handleMapClick = (latlng: any) => {
+    setPlaceToEdit(undefined);
+    setClickedCoords({ lat: latlng.lat, lng: latlng.lng });
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (place: Place) => {
+    setPlaceToEdit(place);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteClick = (place: Place) => {
+    setPlaceToDelete(place);
+    setIsConfirmOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (placeToDelete) {
+      try {
+        await deletePlaceMutation.mutateAsync(placeToDelete.id);
+        setIsConfirmOpen(false);
+        setPlaceToDelete(undefined);
+      } catch (err) {
+        console.error('Failed to delete place', err);
+      }
+    }
+  };
 
   return (
     <>
@@ -50,7 +98,7 @@ export function Dashboard() {
       {/* Map Visualization */}
       <GlassCard style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '400px', overflow: 'hidden', padding: 0 }}>
         <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--glass-border)' }}>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0 }}>Global Map</h3>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0 }}>Global Map (Click to Add Place)</h3>
         </div>
         
         <div style={{ flex: 1, width: '100%', position: 'relative' }}>
@@ -65,12 +113,13 @@ export function Dashboard() {
               ]}
               maxBoundsViscosity={1.0}
               preferCanvas={true}
-              style={{ height: '100%', width: '100%', zIndex: 1, minHeight: '400px' }}
+              style={{ height: '100%', width: '100%', zIndex: 1, minHeight: '400px', cursor: 'crosshair' }}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
+              <MapClickHandler onMapClick={handleMapClick} />
               {data.items.map((place) => (
                 <Marker 
                   key={place.id} 
@@ -78,8 +127,11 @@ export function Dashboard() {
                   icon={customIcon}
                 >
                   <Popup>
-                    <strong>{place.name}</strong><br />
-                    {place.fullAddress}
+                    <PlacePopup 
+                      place={place} 
+                      onEdit={handleEditClick} 
+                      onDelete={handleDeleteClick} 
+                    />
                   </Popup>
                 </Marker>
               ))}
@@ -91,6 +143,23 @@ export function Dashboard() {
           )}
         </div>
       </GlassCard>
+
+      {isModalOpen && (
+        <PlaceForm 
+          onClose={() => setIsModalOpen(false)} 
+          initialCoordinates={clickedCoords}
+          place={placeToEdit}
+        />
+      )}
+
+      <ConfirmModal 
+        isOpen={isConfirmOpen}
+        title="Delete Place"
+        message={`Are you sure you want to delete "${placeToDelete?.name}"? This action cannot be undone.`}
+        onConfirm={confirmDelete}
+        onClose={() => setIsConfirmOpen(false)}
+        isLoading={deletePlaceMutation.isPending}
+      />
     </>
   );
 }

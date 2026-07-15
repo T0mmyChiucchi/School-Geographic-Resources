@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 
 public class UpdatePlaceCommandHandler : IRequestHandler<UpdatePlaceCommand, Unit>
 {
+    private readonly IApplicationDbContext _context;
     private readonly IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> _repository;
     private readonly IUserContextService _userContextService;
 
     public UpdatePlaceCommandHandler(
+        IApplicationDbContext context,
         IRepository<SchoolGeoResources.Domain.Aggregates.PlaceAggregate.Place> repository,
         IUserContextService userContextService)
     {
+        _context = context;
         _repository = repository;
         _userContextService = userContextService;
     }
@@ -35,6 +38,7 @@ public class UpdatePlaceCommandHandler : IRequestHandler<UpdatePlaceCommand, Uni
         place.SetAddress(address);
 
         await _repository.UpdateAsync(place, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

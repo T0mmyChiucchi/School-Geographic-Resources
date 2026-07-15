@@ -38,6 +38,7 @@ public class DeletePlaceCommandHandler : IRequestHandler<DeletePlaceCommand, Uni
             throw new InvalidOperationException("Cannot delete this place because it has associated resources. Please delete or reassign the resources first.");
 
         await _repository.DeleteAsync(place, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }
