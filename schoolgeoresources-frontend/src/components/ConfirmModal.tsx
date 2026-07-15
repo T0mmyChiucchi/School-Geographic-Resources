@@ -1,4 +1,3 @@
-import React from 'react';
 import { GlassCard } from './GlassCard';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 

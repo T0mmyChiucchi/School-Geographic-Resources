@@ -1,4 +1,3 @@
-import React from 'react';
 import { MapPin, Edit3, Trash2 } from 'lucide-react';
 import { type Place } from '../hooks/usePlaces';
 
