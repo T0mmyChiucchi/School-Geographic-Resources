@@ -15,4 +15,5 @@ public class PlaceDto
     public string PostalCode { get; set; } = string.Empty;
     public string CountryCode { get; set; } = string.Empty;
     public Guid OrganizationId { get; set; }
+    public string State { get; set; } = string.Empty;
 }

@@ -12,6 +12,7 @@ export interface Place {
   city: string;
   postalCode: string;
   countryCode: string;
+  state: string;
 }
 
 export interface PaginatedList<T> {
@@ -82,6 +83,26 @@ export function useUpdatePlace() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(place),
+      });
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['places'] });
+    },
+  });
+}
+
+export function useUpdatePlaceState() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, newState }: { id: string; newState: string }) => {
+      const response = await fetchWithAuth(`/api/Places/${id}/state`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, newState }),
       });
       return response;
     },

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Header } from '../components/Header';
-import { usePlaces, useDeletePlace, type Place } from '../hooks/usePlaces';
+import { usePlaces, useDeletePlace, useUpdatePlaceState, type Place } from '../hooks/usePlaces';
 import { GlassCard } from '../components/GlassCard';
-import { MapPin, Loader2, AlertCircle, Edit3, Trash2 } from 'lucide-react';
+import { MapPin, Loader2, AlertCircle, Edit3, Trash2, Check, X } from 'lucide-react';
 import { PlaceForm } from '../components/PlaceForm';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { StatusBadge } from '../components/StatusBadge';
 
 export function Places() {
   const { data, isLoading, error } = usePlaces();
   const deletePlaceMutation = useDeletePlace();
+  const updateStateMutation = useUpdatePlaceState();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [placeToEdit, setPlaceToEdit] = useState<Place | undefined>(undefined);
@@ -29,6 +31,14 @@ export function Places() {
   const handleDeleteClick = (place: Place) => {
     setPlaceToDelete(place);
     setIsConfirmOpen(true);
+  };
+
+  const handleUpdateState = async (id: string, newState: string) => {
+    try {
+      await updateStateMutation.mutateAsync({ id, newState });
+    } catch (err) {
+      console.error('Failed to update state', err);
+    }
   };
 
   const confirmDelete = async () => {
@@ -92,7 +102,10 @@ export function Places() {
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <h3 style={{ margin: '0 0 0.25rem', fontSize: '1.1rem' }}>{place.name}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{place.name}</h3>
+                    <StatusBadge state={place.state} />
+                  </div>
                   <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                     <span>Lat: {place.latitude.toFixed(4)}</span>
                     <span>•</span>
@@ -107,13 +120,27 @@ export function Places() {
                 </p>
               )}
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: 'auto' }}>
-                <button onClick={() => handleEditClick(place)} className="btn btn-glass" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
-                  <Edit3 size={18} />
-                </button>
-                <button onClick={() => handleDeleteClick(place)} className="btn btn-glass" style={{ padding: '0.5rem', fontSize: '0.85rem', color: 'var(--danger)' }}>
-                  <Trash2 size={18} />
-                </button>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  {place.state !== 'Published' && (
+                    <button onClick={() => handleUpdateState(place.id, 'Published')} className="btn btn-glass" style={{ padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: 'var(--success)' }}>
+                      <Check size={14} style={{ marginRight: '0.2rem' }} /> Publish
+                    </button>
+                  )}
+                  {place.state === 'Published' && (
+                    <button onClick={() => handleUpdateState(place.id, 'Draft')} className="btn btn-glass" style={{ padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: 'var(--warning)' }}>
+                      <X size={14} style={{ marginRight: '0.2rem' }} /> Unpublish
+                    </button>
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button onClick={() => handleEditClick(place)} className="btn btn-glass" style={{ padding: '0.5rem', fontSize: '0.85rem' }}>
+                    <Edit3 size={18} />
+                  </button>
+                  <button onClick={() => handleDeleteClick(place)} className="btn btn-glass" style={{ padding: '0.5rem', fontSize: '0.85rem', color: 'var(--danger)' }}>
+                    <Trash2 size={18} />
+                  </button>
+                </div>
               </div>
             </GlassCard>
           ))}

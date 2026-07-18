@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SchoolGeoResources.Application.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+710aba4fe4f66724468fc2610ebec2c2709b4412")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92d1d0ecd75c12eee0f9d28256cd7a12ebaec91a")]
 [assembly: System.Reflection.AssemblyProductAttribute("SchoolGeoResources.Application.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SchoolGeoResources.Application.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

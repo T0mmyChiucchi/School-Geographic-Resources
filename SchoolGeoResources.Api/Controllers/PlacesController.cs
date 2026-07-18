@@ -60,6 +60,14 @@ public class PlacesController : ControllerBase
         return NoContent();
     }
 
+    [HttpPatch("{id}/state")]
+    public async Task<ActionResult> UpdatePlaceState(Guid id, [FromBody] SchoolGeoResources.Application.Places.Commands.UpdatePlaceState.UpdatePlaceStateCommand command)
+    {
+        if (id != command.Id) return BadRequest("Id mismatch");
+        await _mediator.Send(command);
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeletePlace(Guid id)
     {

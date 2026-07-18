@@ -15,6 +15,10 @@ public class PlaceConfiguration : IEntityTypeConfiguration<Place>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.Property(p => p.State)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.OwnsOne(p => p.Location, loc =>
         {
             loc.Property(l => l.Latitude).HasColumnName("Latitude");

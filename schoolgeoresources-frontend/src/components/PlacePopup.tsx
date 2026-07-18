@@ -1,5 +1,6 @@
 import { MapPin, Edit3, Trash2 } from 'lucide-react';
 import { type Place } from '../hooks/usePlaces';
+import { StatusBadge } from './StatusBadge';
 
 interface PlacePopupProps {
   place: Place;
@@ -15,7 +16,10 @@ export function PlacePopup({ place, onEdit, onDelete }: PlacePopupProps) {
     <div className="place-popup">
       <div className="popup-image" style={{ backgroundImage: `url(${imageUrl})` }}></div>
       <div className="popup-content">
-        <h3 className="popup-title">{place.name}</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'space-between' }}>
+          <h3 className="popup-title">{place.name}</h3>
+          <StatusBadge state={place.state} />
+        </div>
         
         {place.fullAddress && (
           <div className="popup-detail">

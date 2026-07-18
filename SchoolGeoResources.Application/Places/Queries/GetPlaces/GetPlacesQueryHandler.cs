@@ -49,7 +49,8 @@ public class GetPlacesQueryHandler : IRequestHandler<GetPlacesQuery, PaginatedLi
             City = p.Address.City,
             PostalCode = p.Address.PostalCode,
             CountryCode = p.Address.CountryCode,
-            OrganizationId = p.OrganizationId
+            OrganizationId = p.OrganizationId,
+            State = p.State.ToString()
         });
 
         return await projection.PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
